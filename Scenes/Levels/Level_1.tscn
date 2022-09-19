@@ -1,0 +1,116 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://Scenes/Player/Player_1.tscn" type="PackedScene" id=1]
+[ext_resource path="res://GFX/Background/bg_layer3.png" type="Texture" id=2]
+[ext_resource path="res://GFX/Background/bg_layer1.png" type="Texture" id=4]
+[ext_resource path="res://new_tileset.tres" type="TileSet" id=11]
+[ext_resource path="res://SFX/Summer_Park.ogg" type="AudioStream" id=12]
+[ext_resource path="res://SFX/pain.ogg" type="AudioStream" id=13]
+[ext_resource path="res://SFX/coin_SFX.wav" type="AudioStream" id=14]
+[ext_resource path="res://SFX/jump1.ogg" type="AudioStream" id=15]
+[ext_resource path="res://SFX/Chiptune_Adventures_1.ogg" type="AudioStream" id=16]
+[ext_resource path="res://Scenes/Levels/coin.tscn" type="PackedScene" id=17]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 1710.25, 37 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 63, 712.25 )
+
+[node name="Level_1" type="Node2D"]
+
+[node name="Player_1" parent="." instance=ExtResource( 1 )]
+position = Vector2( 211, 317 )
+
+[node name="Camera2D" type="Camera2D" parent="Player_1"]
+position = Vector2( -46, 151 )
+current = true
+limit_left = 0
+limit_top = -10000
+limit_right = 3000
+limit_bottom = 1000
+drag_margin_h_enabled = true
+drag_margin_v_enabled = true
+drag_margin_left = 0.3
+drag_margin_right = 0.3
+
+[node name="Platfrom_Move" type="Node2D" parent="."]
+position = Vector2( -1648, -136 )
+
+[node name="Plat_cake_level1" type="TileMap" parent="Platfrom_Move"]
+position = Vector2( 1642, 85 )
+tile_set = ExtResource( 11 )
+collision_layer = 2
+format = 1
+tile_data = PoolIntArray( -393184, 0, 0, -65517, 0, 0, 196608, 0, 0, 196614, 8, 0, 196639, 8, 0, 262147, 1, 0, 393229, 1, 0, 524302, 8, 0, 524311, 8, 0, 720897, 0, 0, 720903, 0, 0, 786461, 0, 0, 786467, 0, 0, 786473, 0, 0 )
+
+[node name="Sound" type="Node2D" parent="."]
+position = Vector2( 458, 386 )
+
+[node name="jump_sound" type="AudioStreamPlayer2D" parent="Sound"]
+visible = false
+stream = ExtResource( 15 )
+
+[node name="menu_music" type="AudioStreamPlayer2D" parent="Sound"]
+visible = false
+stream = ExtResource( 16 )
+volume_db = 0.148
+
+[node name="dead_sound" type="AudioStreamPlayer2D" parent="Sound"]
+visible = false
+position = Vector2( 1677, -45 )
+stream = ExtResource( 13 )
+
+[node name="coins_sound" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource( 14 )
+volume_db = -23.122
+
+[node name="music_in_game" type="AudioStreamPlayer2D" parent="Sound"]
+position = Vector2( 1165, -315 )
+stream = ExtResource( 12 )
+volume_db = -13.109
+max_distance = 1e+06
+
+[node name="BG" type="ParallaxBackground" parent="."]
+
+[node name="Blue_BG" type="ParallaxLayer" parent="BG"]
+motion_mirroring = Vector2( 1024, 600 )
+
+[node name="Sprite" type="Sprite" parent="BG/Blue_BG"]
+position = Vector2( 1090, 349 )
+scale = Vector2( 1.33496, 1 )
+texture = ExtResource( 4 )
+
+[node name="Gray_tree" type="ParallaxLayer" parent="BG"]
+
+[node name="Sprite" type="Sprite" parent="BG/Gray_tree"]
+position = Vector2( 1712, 74 )
+scale = Vector2( 1.66992, 1 )
+texture = ExtResource( 2 )
+
+[node name="Fall_dead" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Fall_dead"]
+position = Vector2( 1717, 946 )
+shape = SubResource( 1 )
+
+[node name="wall" type="Node2D" parent="."]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="wall"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="wall/StaticBody2D"]
+position = Vector2( -60, 274.25 )
+shape = SubResource( 2 )
+
+[node name="Coins" type="Node2D" parent="."]
+
+[node name="coin1" parent="Coins" instance=ExtResource( 17 )]
+position = Vector2( 2688, 658 )
+
+[node name="coin2" parent="Coins" instance=ExtResource( 17 )]
+position = Vector2( 2267, -494 )
+
+[node name="coin3" parent="Coins" instance=ExtResource( 17 )]
+position = Vector2( 93, 74 )
+
+[connection signal="body_entered" from="Fall_dead" to="Player_1" method="_on_Fall_dead_body_entered"]
