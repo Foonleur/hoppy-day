@@ -20,12 +20,6 @@ outline_size = 10
 outline_color = Color( 0.32549, 0.447059, 0.819608, 1 )
 font_data = ExtResource( 3 )
 
-[sub_resource type="DynamicFont" id=2]
-size = 53
-outline_size = 2
-outline_color = Color( 0.0862745, 0.0509804, 0.0509804, 1 )
-font_data = ExtResource( 3 )
-
 [sub_resource type="SpriteFrames" id=3]
 animations = [ {
 "frames": [ ExtResource( 9 ), ExtResource( 8 ) ],
@@ -41,6 +35,12 @@ animations = [ {
 "name": "default",
 "speed": 5.0
 } ]
+
+[sub_resource type="DynamicFont" id=2]
+size = 53
+outline_size = 2
+outline_color = Color( 0.0862745, 0.0509804, 0.0509804, 1 )
+font_data = ExtResource( 3 )
 
 [node name="Menu" type="Control"]
 anchor_right = 1.0
@@ -68,6 +68,29 @@ valign = 1
 __meta__ = {
 "_edit_use_anchors_": true
 }
+
+[node name="player" type="Node2D" parent="."]
+
+[node name="brown" type="AnimatedSprite" parent="player"]
+position = Vector2( 182, 440 )
+rotation = -0.284489
+frames = SubResource( 3 )
+frame = 1
+playing = true
+
+[node name="pink" type="AnimatedSprite" parent="player"]
+position = Vector2( 856, 450 )
+rotation = 0.350811
+frames = SubResource( 4 )
+playing = true
+
+[node name="Coins" type="Node2D" parent="."]
+
+[node name="coin1" parent="Coins" instance=ExtResource( 12 )]
+position = Vector2( 937, 104 )
+
+[node name="coin2" parent="Coins" instance=ExtResource( 12 )]
+position = Vector2( 119, 108 )
 
 [node name="Start" type="TextureButton" parent="."]
 anchor_left = 0.404297
@@ -128,29 +151,6 @@ autoplay = true
 
 [node name="Button" type="AudioStreamPlayer" parent="sound"]
 stream = ExtResource( 7 )
-
-[node name="player" type="Node2D" parent="."]
-
-[node name="brown" type="AnimatedSprite" parent="player"]
-position = Vector2( 182, 440 )
-rotation = -0.284489
-frames = SubResource( 3 )
-playing = true
-
-[node name="pink" type="AnimatedSprite" parent="player"]
-position = Vector2( 856, 450 )
-rotation = 0.350811
-frames = SubResource( 4 )
-frame = 1
-playing = true
-
-[node name="Coins" type="Node2D" parent="."]
-
-[node name="coin1" parent="Coins" instance=ExtResource( 12 )]
-position = Vector2( 937, 104 )
-
-[node name="coin2" parent="Coins" instance=ExtResource( 12 )]
-position = Vector2( 119, 108 )
 
 [connection signal="pressed" from="Start" to="." method="_on_Start_pressed"]
 [connection signal="pressed" from="Exit" to="." method="_on_Exit_pressed"]
